@@ -1,22 +1,23 @@
 package com.mercadolivro.model
 
+import com.mercadolivro.enums.CustomerStatus
 import org.hibernate.Hibernate
 import org.springframework.lang.NonNull
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
+import javax.persistence.*
 
 @Entity(name = "customer")
 data class CustomerModel(
     @Id
-    @GeneratedValue(strategy =  GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int? = null,
 
     @Column
     var name: String,
 
     @Column
-    var email: String
-    )
+    var email: String,
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    var status: CustomerStatus
+)
