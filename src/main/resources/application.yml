@@ -6,4 +6,5 @@ spring:
     url: jdbc:mysql://localhost:3306/mercadolivro?createDatabaseIfNotExist=true
     username: root
     password: fs1lm3gl5tt
-    #driver-class-name: com.mysql.cj.jdbc.Driver
+  jackson:
+    default-property-inclusion: non_null  #driver-class-name: com.mysql.cj.jdbc.Driver
