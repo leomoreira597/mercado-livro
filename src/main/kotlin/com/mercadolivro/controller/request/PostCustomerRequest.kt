@@ -9,6 +9,6 @@ data class PostCustomerRequest(
     @field:NotEmpty
     var name: String,
 
-    @field:Email
+    @field:Email(message = "verifique se está no formato adequado como 'exemplo@exemplo.com'")
     var email: String
     )
