@@ -51,5 +51,29 @@ class BookService(
         bookRepository.saveAll(books)
     }
 
+    fun findAllByIds(booksIds: Set<Int>): List<BookModel> {
+        return bookRepository.findAllById(booksIds).toList()
+    }
+
+
+    fun purchase(books: MutableList<BookModel>) {
+        books.map {
+            it.status = BookStatus.VENDIDO
+        }
+        bookRepository.saveAll(books)
+    }
+
+    fun checkIdsStatus(ids: Set<Int>): Boolean {
+        var result: Boolean = true
+        val bookStatus = bookRepository.findAllById(ids)
+        bookStatus.map {
+            if(it.status == BookStatus.CANCELADO || it.status == BookStatus.VENDIDO || it.status == BookStatus.DELETADO){
+                result = false
+            }
+        }
+
+        return result
+    }
+
 
 }
