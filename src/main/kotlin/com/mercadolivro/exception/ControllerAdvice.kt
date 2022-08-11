@@ -9,6 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.context.request.WebRequest
+import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver
 
 @ControllerAdvice
 class ControllerAdvice {
@@ -50,4 +51,12 @@ class ControllerAdvice {
 
         return ResponseEntity(error, HttpStatus.UNPROCESSABLE_ENTITY)
     }
+
+//    @Default(DefaultHandlerExceptionResolver::class)
+//    fun faltando(
+//        ex: DefaultHandlerExceptionResolver,
+//        request: WebRequest
+//    ){
+//
+//    }
 }
