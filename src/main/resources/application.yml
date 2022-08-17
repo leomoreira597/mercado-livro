@@ -8,3 +8,7 @@ spring:
     password: fs1lm3gl5tt
   jackson:
     default-property-inclusion: non_null  #driver-class-name: com.mysql.cj.jdbc.Driver
+
+jwt:
+  secret: 5f88f757-47b8-4347-8ef7-2013407a23ef
+  expiration: 999999
