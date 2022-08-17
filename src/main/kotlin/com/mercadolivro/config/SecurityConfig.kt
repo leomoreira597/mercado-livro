@@ -2,7 +2,9 @@ package com.mercadolivro.config
 
 import com.mercadolivro.repository.CustomerRepository
 import com.mercadolivro.security.AuthenticationFilter
+import com.mercadolivro.security.AuthorizationFilter
 import com.mercadolivro.security.JwtUtil
+import com.mercadolivro.service.UserDetailsCustomService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -18,7 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 @EnableWebSecurity
 class SecurityConfig(
     private val customerRepository: CustomerRepository,
-    private val userDetailsService: UserDetailsService,
+    private val userDetails: UserDetailsCustomService,
     private val jwtUtil: JwtUtil
 ): WebSecurityConfigurerAdapter() {
 
@@ -27,7 +29,7 @@ class SecurityConfig(
     )
 
     override fun configure(auth: AuthenticationManagerBuilder) {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder())
+        auth.userDetailsService(userDetails).passwordEncoder(bCryptPasswordEncoder())
     }
 
     override fun configure(http: HttpSecurity) {
@@ -37,8 +39,8 @@ class SecurityConfig(
             .antMatchers(HttpMethod.POST, *PUBLIC_POST_MATCHERS).permitAll()
             .anyRequest().authenticated()
             http.addFilter(AuthenticationFilter(authenticationManager(), customerRepository, jwtUtil))
-
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            http.addFilter(AuthorizationFilter(authenticationManager(), userDetails, jwtUtil))
+            http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
     }
 
     @Bean
